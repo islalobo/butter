@@ -127,7 +127,19 @@
                       "path" : `/messages/${filename}`, 
                       "mime_type" : "audio/mpeg" }]
                   }
-                  window.open(`mailto:thesoundofourvoices@gmail.com?subject=test&body=${email}`);
+                  const encoded = btoa(JSON.stringify(email));
+                  const actual = JSON.parse(atob(encoded));
+                  console.log('encoded ', encoded);
+                  console.log('actual ', actual);
+                  console.log(audioElement.src);
+                  window.open(
+                    `mailto:thesoundofourvoices@gmail.com?`
+                    + `subject=test&`
+                    + `body=${audioElement.src}`
+                    // + `ni_email_cfg_base64json=${encoded}`
+                    // + `email_attachments=`
+                    // + `?attach=${audioElement.src}`
+                    );
                 }
               });
             });
