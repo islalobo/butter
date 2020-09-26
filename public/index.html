@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Record and save audio</title>
+    <title>Record and send audio</title>
     <style>
       audio {
         display: block;
@@ -13,10 +13,10 @@
     <button id="record">Record</button>
     <button id="stop" disabled>Stop</button>
     <button id="play" disabled>Play</button>
-    <button id="save" disabled>Save</button>
+    <button id="send" disabled>Send</button>
 
-    <div id="saved-audio-messages">
-      <h2>Saved messages</h2>
+    <div id="send-audio-messages">
+      <h2>Recorded Audio</h2>
     </div>
 
     <script>
@@ -56,8 +56,8 @@
       const recordButton = document.querySelector('#record');
       const stopButton = document.querySelector('#stop');
       const playButton = document.querySelector('#play');
-      const saveButton = document.querySelector('#save');
-      const savedAudioMessagesContainer = document.querySelector('#saved-audio-messages');
+      const sendButton = document.querySelector('#send');
+      const sendAudioMessagesContainer = document.querySelector('#send-audio-messages');
 
       let recorder;
       let audio;
@@ -66,7 +66,7 @@
         recordButton.setAttribute('disabled', true);
         stopButton.removeAttribute('disabled');
         playButton.setAttribute('disabled', true);
-        saveButton.setAttribute('disabled', true);
+        sendButton.setAttribute('disabled', true);
         if (!recorder) {
           recorder = await recordAudio();
         }
@@ -77,7 +77,7 @@
         recordButton.removeAttribute('disabled');
         stopButton.setAttribute('disabled', true);
         playButton.removeAttribute('disabled');
-        saveButton.removeAttribute('disabled');
+        sendButton.removeAttribute('disabled');
         audio = await recorder.stop();
       });
 
@@ -85,7 +85,7 @@
         audio.play();
       });
 
-      saveButton.addEventListener('click', () => {
+      sendButton.addEventListener('click', () => {
         const reader = new FileReader();
         reader.readAsDataURL(audio.audioBlob);
         reader.onload = () => {
@@ -115,7 +115,19 @@
                   audioElement.src = `/messages/${filename}`;
                   audioElement.setAttribute('data-audio-filename', filename);
                   audioElement.setAttribute('controls', true);
-                  savedAudioMessagesContainer.appendChild(audioElement);
+                  // sendAudioMessagesContainer.appendChild(audioElement);
+                  const email = {
+                    "type": "ecfg", 
+                    "version": "1", 
+                    "email_to" : "thesoundofourvoices@gmail.com", 
+                    "email_bcc" : ["alanna.macnevin@gmail.com"], 
+                    "email_subject" : "the sound of our voices", 
+                    "email_body" : "<html><body>Here is a recording!</body></html>", 
+                    "email_attachments" : [{ 
+                      "path" : `/messages/${filename}`, 
+                      "mime_type" : "audio/mpeg" }]
+                  }
+                  window.open(`mailto:thesoundofourvoices@gmail.com?subject=test&body=${email}`);
                 }
               });
             });
