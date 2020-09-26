@@ -13,7 +13,8 @@ if (!fs.existsSync(messageFolder)) {
 }
 
 const app = express();
-
+app.use(express.json({limit: '50mb', extended: true}));
+app.use(express.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}));
 app.use(express.static('public'));
 app.use(express.json());
 
@@ -35,7 +36,10 @@ app.post('/messages', (req, res) => {
   const messageId = v4();
   writeFile(messageFolder + messageId, req.body.message, 'base64')
     .then(() => {
-      res.status(201).json({ message: 'Saved message' });
+      res.status(201).json({
+        message: 'Saved message',
+        id: messageId,
+      });
     })
     .catch(err => {
       console.log('Error writing message to file', err);
