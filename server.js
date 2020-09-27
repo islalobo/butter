@@ -13,6 +13,11 @@ if (!fs.existsSync(messageFolder)) {
   fs.mkdirSync(messageFolder);
 }
 
+const audioFolder = './public/messages/mp3/';
+if (!fs.existsSync(messageFolder)) {
+  fs.mkdirSync(messageFolder);
+}
+
 const app = express();
 app.use(express.json({limit: '50mb', extended: true}));
 app.use(express.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}));
@@ -39,20 +44,19 @@ app.post('/messages', (req, res) => {
   .then(() => {
       console.log('messages was saved!');
       try {
-        console.log('attempting to make an mp3 ', messageFolder + messageId);
-        const process = new ffmpeg(messageFolder + messageId);
+        console.log('attempting to make an mp3 ', `${messageFolder}${messageId}`, `${audioFolder}${messageId}.mp3`);
+        const process = new ffmpeg(`${messageFolder}${messageId}`);
         process.then((audio) => {
-          console.log('file is here ', `${messageFolder}${messageId}.mp3`);
-          audio.fnExtractSoundToMP3(`${messageFolder}${messageId}.mp3`, (error, file) => {
+          console.log('audio is ready to be processed ', audio);
+          audio.fnExtractSoundToMP3(`${audioFolder}${messageId}.mp3`, (error, file) => {
             console.log('There is an error ', error);
             console.log('There is a file ', file);
             if (!error) {
               console.log('Audio File ', file);
               const file = file;
-
+              console.log('what a success, ', messageId && messageId, file && file);
               res.status(201).json({
                 message: 'Saved message',
-                id: messageId,
               });
             }
           })
@@ -60,8 +64,8 @@ app.post('/messages', (req, res) => {
           console.log('An error occurred, ', err);
         });
       } catch(e) {
-        console.log(e.code);
-        console.log(e.msg);
+        console.log('error code ', e.code);
+        console.log('error message ', e.msg);
       }
 
     // res.status(201).json({
