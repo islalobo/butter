@@ -1,6 +1,6 @@
 const express = require('express');
 const fs = require('fs');
-const ffmpeg = require('ffmpeg');
+const ffmpeg = require('fluent-ffmpeg');
 const { promisify } = require('util');
 const { v4 } = require('uuid');
 
@@ -42,8 +42,7 @@ app.post('/messages', (req, res) => {
         console.log('attempting to make an mp3 ', messageFolder + messageId);
         const process = new ffmpeg(messageFolder + messageId);
         process.then((audio) => {
-          console.log('there is audio, ', audio);
-          console.log('file is here ', messageFolder + messageId, `${messageFolder}${messageId}.mp3`);
+          console.log('file is here ', `${messageFolder}${messageId}.mp3`);
           audio.fnExtractSoundToMP3(`${messageFolder}${messageId}.mp3`, (error, file) => {
             console.log('There is an error ', error);
             console.log('There is a file ', file);
