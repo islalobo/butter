@@ -22,26 +22,9 @@ if (!fs.existsSync(messageFolder)) {
 
 // Setup Pages
 var path = require('path');
-var htmlPath = path.join(__dirname, 'public');
+var htmlPath = path.join(__dirname, 'public/voices');
 
 app.use(express.static(htmlPath));
-
-// Pages
-// const animal = require('./public/');
-// const alive = require('./alive');
-// const black = require('./black');
-// const immigrant = require('./immigrant');
-// const queer = require('./queer');
-// const sister = require('./sister');
-
-// Routes
-// const routes = require('express').Router();
-// routes.use('/animal', animal);
-// routes.use('/alive', alive);
-// routes.use('/black', black);
-// routes.use('/immigrant', immigrant);
-// routes.use('/queer', queer);
-// routes.use('/sister', sister);
 
 // Methods
 app.get('/messages', (req, res) => {
