@@ -82,15 +82,18 @@
       </div>
     </div>
 
+    <!-- <a class="mdc-button foo-button" href="http://localhost:3545/messages/d522d20f-f7ef-4208-8bf3-e3d3e52ae9e1.mp3" download="filename.mp3">DownloadButton</a> -->
+
     <div class="row">
       <div id="audio-messages" class="recordings">
-        <audio controls="controls" src="https://echoload.herokuapp.com/messages/b77caee1-756c-4ef5-9ce8-e9fab519d184" type="audio/mp3" />
+        <!-- <audio controls="controls" src="[blobUrl]" type="audio/mp3" /> -->
       </div>
     </div>
 
     <div class="row">
       <button id="send" class="mdc-button foo-button"disabled>Send</button>
     </div>
+    
     
     <script>
       const title = document.querySelector('#title').innerHTML;
@@ -255,7 +258,7 @@
                   if (!audioElement) {
                     // audio stuff and then some
                     audioElement = document.createElement('audio');
-                    audioElement.src = `/messages/${filename}`;
+                    audioElement.src = `/messages/${filename}.mp3`;
                     audioElement.setAttribute('data-audio-filename', filename);
                     audioElement.setAttribute('controls', true);
                     

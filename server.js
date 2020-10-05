@@ -26,6 +26,8 @@ var htmlPath = path.join(__dirname, 'public/voices');
 
 app.use(express.static(htmlPath));
 
+app.get('/', () => window.open('soundsofourvoices.com', '_self'));
+
 // Methods
 app.get('/messages', (req, res) => {
   readdir(messageFolder)
