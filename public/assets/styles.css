@@ -1,0 +1,66 @@
+body {
+  color: #FFFFFF;
+  font: normal normal normal 16px/1.4em futura-lt-w01-book,sans-serif;
+}
+.container {
+  background-color: black;
+  margin: 0px auto;
+  height: calc(100vh);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.row {
+  width: 100%;
+  text-align: center;
+}
+.title {
+  font-size: 60px;
+}
+.paragraph-left {
+  float: left;
+  margin-left: 25px;
+  width: 295px;
+  text-align: justify;
+}
+.paragraph-right {
+  float: right;
+  margin-right: 25px;
+  width: 295px;
+  text-align: justify;
+}
+.foo-button:disabled .material-icons {
+  color:#50FAA8;
+}
+.buttons,
+.recordings {
+  display: block;
+  margin: auto;
+}
+.foo-button {
+  color: white !important;
+}
+#title:hover,
+.mdc-button:not(:disabled) {
+  color: #50FAA8;
+  cursor: pointer;
+}
+.mdc-button--outlined .mdc-button__ripple {
+  border: 1px solid #50FAA8;
+}
+.material-icons {
+  width: 25px;
+}
+.recordings,
+.recording-indicator {
+  height: 150px;
+}
+.recording-indicator-image {
+  height: 100px;
+}
+audio {
+  display: block;
+  margin: auto;
+}

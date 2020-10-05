@@ -4,49 +4,8 @@
     <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
     <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="../assets//styles.css">
     <title>Alive Voices</title>
-    <style>
-      .container {
-        background-color: black;
-        margin: 0px auto;
-        height: calc(100vh);
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-      }
-      .row {
-        width: 100%;
-        text-align: center;
-      }
-      .title {
-        font: normal normal normal 60px/1.4em futura-lt-w01-book,sans-serif;
-        color: white;
-      }
-      .buttons,
-      .recordings {
-        display: block;
-        margin: auto;
-      }
-      .foo-button {
-        color: white !important;
-      }
-      .material-icons {
-        width: 25px;
-      }
-      .recordings,
-      .recording-indicator {
-        height: 150px;
-      }
-      .recording-indicator-image {
-        height: 100px;
-      }
-      audio {
-        display: block;
-        margin: auto;
-      }
-    </style>
   </head>
   <!--
     /*
@@ -60,16 +19,37 @@
     -->
   <body class="container">
     <div class="row">
-      <h1 id="title" class="title">Alive Voices</h1>
+      <h1 hidden id="title" class="title">Alive Voices</h1>
     </div>
 
     <div class="row">
-      record your story and submit. submitting will send an email with your audio recording.
+      <div><img id="header-gif" src="../assets/reverb.gif" class="recording-indicator-image" alt="reverb gif logo" /></div>
+      <div id="title" class="title">Reverberations</div>
+    </div>
+
+    <div class="row">
+      <div class="paragraph-left">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="paragraph-right">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      </div>
     </div>
 
     <div class="row">
       <div class="recording-indicator">
-        <img id="recording-indicator" src="../reverb.gif" class="recording-indicator-image" alt="reverb gif" />
+        <img id="recording-indicator" src="../assets/reverb.gif" class="recording-indicator-image" alt="reverb gif" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div id="audio-messages" class="recordings">
+        <!-- <audio controls="controls" src="[blobUrl]" type="audio/mp3" /> -->
       </div>
     </div>
 
@@ -82,204 +62,13 @@
       </div>
     </div>
 
-    <!-- <a class="mdc-button foo-button" href="http://localhost:3545/messages/d522d20f-f7ef-4208-8bf3-e3d3e52ae9e1.mp3" download="filename.mp3">DownloadButton</a> -->
-
     <div class="row">
-      <div id="audio-messages" class="recordings">
-        <!-- <audio controls="controls" src="[blobUrl]" type="audio/mp3" /> -->
-      </div>
-    </div>
-
-    <div class="row">
-      <button id="send" class="mdc-button foo-button"disabled>Send</button>
+      <button id="send" class="mdc-button mdc-button--outlined">
+        <div class="mdc-button__ripple"></div>
+        <span class="mdc-button__label">Share Your Voice (Submit)</span>
+      </button>
     </div>
     
-    
-    <script>
-      const title = document.querySelector('#title').innerHTML;
-
-      const recordAudio = () =>
-        new Promise(async resolve => {          
-          const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
-          const mediaRecorder = new MediaRecorder(stream);
-          let audioChunks = [];
-
-          mediaRecorder.addEventListener('dataavailable', event => {
-            audioChunks.push(event.data);
-          });
-
-          const start = () => {
-            recordingIndicator.hidden = false;
-
-            audioChunks = [];
-            mediaRecorder.start();
-          };
-
-          const stop = () =>
-            new Promise(resolve => {
-              recordingIndicator.hidden = true;
-
-              mediaRecorder.addEventListener('stop', () => {
-                const audioBlob = new Blob(audioChunks, {mimeType: 'audio/x-mpeg-3'});
-                const audioUrl = URL.createObjectURL(audioBlob);
-                const audio = new Audio(audioUrl);
-                const play = () => audio.play();
-                resolve({ audioChunks, audioBlob, audioUrl, play });
-              });
-
-              mediaRecorder.stop();
-            });
-
-          resolve({ start, stop });
-        });
-
-      const recordingIndicator = document.querySelector('#recording-indicator');
-      const recordButton = document.querySelector('#record');
-      const stopButton = document.querySelector('#stop');
-      const playButton = document.querySelector('#play');
-      const deleteButton = document.querySelector('#delete');
-      const sendButton = document.querySelector('#send');
-      const sendAudioMessagesContainer = document.querySelector('#audio-messages');
-
-      let recorder;
-      let audio;
-      let currentMessage;
-
-      recordButton.addEventListener('click', async () => {
-        recordButton.setAttribute('disabled', true);
-        stopButton.removeAttribute('disabled');
-        playButton.setAttribute('disabled', true);
-        deleteButton.setAttribute('disabled', true);
-        sendButton.setAttribute('disabled', true);
-        // todo, if there is existing audio then delete it
-        if (!recorder) {
-          recorder = await recordAudio();
-        }
-        recorder.start();
-      });
-
-      const saveMessage = async function(base64AudioMessage) {
-        await fetch('/messages', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: base64AudioMessage })
-          }).then(res => {
-            if (res.status === 201) {
-              const response = res.json()
-              .then(response => {
-                populateAudioMessages(response.id);
-              });
-            }
-            console.log('Invalid status saving audio message: ' + res.status);
-          });
-          return true;
-      }
-
-      stopButton.addEventListener('click', async () => {
-        sendAudioMessagesContainer.innerHTML = ''; // wipe any audio that was there before
-
-        // set button states accordingly 
-        recordButton.removeAttribute('disabled');
-        stopButton.setAttribute('disabled', true);
-        playButton.removeAttribute('disabled');
-        deleteButton.removeAttribute('disabled');
-        sendButton.removeAttribute('disabled');
-
-        // stop recording
-        audio = await recorder.stop();
-
-        // start saving mesage process...
-        const reader = new FileReader();
-        reader.readAsDataURL(audio.audioBlob);
-        reader.onload = async () => {
-          const base64AudioMessage = reader.result.split(',')[1];
-          // save message
-          await saveMessage(base64AudioMessage);
-
-        };
-      });
-
-      playButton.addEventListener('click', () => {
-        audio.play();
-      });
-
-      sendButton.addEventListener('click', (event) => {
-        sendAudioMessagesContainer.innerHTML = ''; // clear out audio, bye!
-
-        // set button states accordingly 
-        recordButton.removeAttribute('disabled');
-        stopButton.setAttribute('disabled', true);
-        playButton.setAttribute('disabled', true);
-        deleteButton.setAttribute('disabled', true);
-        sendButton.setAttribute('disabled', true);
-
-        window.open(
-          `mailto:thesoundofourvoices@gmail.com?`
-          + `subject=${title}&`
-          + `body=${currentMessage}`,
-          '_parent'
-          );
-      });
-
-      deleteButton.addEventListener('click', (event) => {
-        sendAudioMessagesContainer.innerHTML = ''; // clear out audio, bye!
-
-        // set button states accordingly 
-        recordButton.removeAttribute('disabled');
-        stopButton.setAttribute('disabled', true);
-        playButton.setAttribute('disabled', true);
-        deleteButton.setAttribute('disabled', true);
-        sendButton.setAttribute('disabled', true);
-
-        // todo, get the filename from the audio and delete
-        fetch('/messages', {
-            method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id: 'fake_id' }) // todo
-          }).then(res => {
-            if (res.status === 201) {
-              const response = res.json()
-              .then(response => {
-                console.log(response);
-              });
-            }
-            console.log('Status saving audio message: ' + res.status);
-          });
-          return true;
-      });
-
-      const populateAudioMessages = (id) => {
-        return fetch('/messages').then(res => {
-          if (res.status === 200) {
-            return res.json().then(json => {
-              json.messageFilenames.forEach(filename => {
-                if (filename === id) {
-                  let audioElement = document.querySelector(`[data-audio-filename="${filename}"]`);
-                  if (!audioElement) {
-                    // audio stuff and then some
-                    audioElement = document.createElement('audio');
-                    audioElement.src = `/messages/${filename}.mp3`;
-                    audioElement.setAttribute('data-audio-filename', filename);
-                    audioElement.setAttribute('controls', true);
-                    
-                    // save the current message
-                    currentMessage = audioElement.src;
-                    
-                    // populate the most recent message in the container
-                    sendAudioMessagesContainer.prepend(audioElement);
-                  }
-                }
-              });
-            });
-          }
-          console.log('Invalid status getting messages: ' + res.status);
-        });
-      };
-
-      const setDefaultRecordingState = () => {
-        recordingIndicator.hidden = true;
-      }
-      setDefaultRecordingState();
-    </script>
+    <script type="text/javascript" src="../utils/recorder.js"></script>
   </body>
 </html>
