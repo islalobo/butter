@@ -1,6 +1,11 @@
 body {
   color: #FFFFFF;
   font: normal normal normal 16px/1.4em futura-lt-w01-book,sans-serif;
+  font-weight: 400;
+  background: #000000;
+  /* background-color: #000000; */
+  /* background-image: url('./topography.svg'); */
+  /* background-image: url('./topography.svg'), linear-gradient(to top left, #000 50%, #FFF 50.1%); */
 }
 .container {
   background-color: black;
@@ -8,7 +13,7 @@ body {
   height: calc(100vh);
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
   width: 100%;
 }
@@ -19,17 +24,35 @@ body {
 .title {
   font-size: 60px;
 }
+.sub-title {
+  font-size: 28px;
+  position: relative;
+  top: 15px;
+  left: 20px;
+}
+.sub-title:hover {
+  color: #999696;
+  cursor: pointer;
+}
 .paragraph-left {
   float: left;
-  margin-left: 25px;
-  width: 295px;
+  /* margin-left: 225px; */
+  width: 300px;
   text-align: justify;
 }
 .paragraph-right {
   float: right;
-  margin-right: 25px;
-  width: 295px;
+  /* margin-right: 225px; */
+  width: 300px;
   text-align: justify;
+}
+@media only screen and (min-width: 768px) {
+  .paragraph-left {
+    margin-left: 225px;
+  }
+  .paragraph-right {
+    margin-right: 225px;
+  }
 }
 .foo-button:disabled .material-icons {
   color:#50FAA8;

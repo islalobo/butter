@@ -14,6 +14,8 @@ let recorder;
 let audio;
 let currentMessage;
 
+document.querySelector('#voice').innerHTML = title;
+
 // When the app is recording, show the gif
 // Set default recording hidden attribute
 const setDefaultRecordingState = () => {
@@ -110,7 +112,6 @@ recordButton.addEventListener('click', async () => {
   stopButton.removeAttribute('disabled');
   playButton.setAttribute('disabled', true);
   deleteButton.setAttribute('disabled', true);
-  sendButton.setAttribute('disabled', true);
   // todo, if there is existing audio then delete it
   if (!recorder) {
     recorder = await recordAudio();
@@ -126,7 +127,6 @@ stopButton.addEventListener('click', async () => {
   stopButton.setAttribute('disabled', true);
   playButton.removeAttribute('disabled');
   deleteButton.removeAttribute('disabled');
-  sendButton.removeAttribute('disabled');
 
   // stop recording
   audio = await recorder.stop();
@@ -154,7 +154,6 @@ sendButton.addEventListener('click', (event) => {
   stopButton.setAttribute('disabled', true);
   playButton.setAttribute('disabled', true);
   deleteButton.setAttribute('disabled', true);
-  sendButton.setAttribute('disabled', true);
 
   window.open(
     `mailto:thesoundofourvoices@gmail.com?`
@@ -172,7 +171,6 @@ deleteButton.addEventListener('click', (event) => {
   stopButton.setAttribute('disabled', true);
   playButton.setAttribute('disabled', true);
   deleteButton.setAttribute('disabled', true);
-  sendButton.setAttribute('disabled', true);
 
   // todo, get the filename from the audio and delete
   fetch('/messages', {
