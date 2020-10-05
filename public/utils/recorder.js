@@ -1,5 +1,5 @@
 'use strict';
-
+ 
 // Declare some variables
 const title = document.querySelector('#title').innerHTML;
 const recordingIndicator = document.querySelector('#recording-indicator');
@@ -73,7 +73,7 @@ await fetch('/messages', {
         populateAudioMessages(response.id);
       });
     }
-    console.log('Invalid status saving audio message: ' + res.status);
+    console.log('Status saving audio message: ' + res.status);
   });
   return true;
 }
@@ -97,6 +97,14 @@ const populateAudioMessages = (id) => {
               
               // populate the most recent message in the container
               sendAudioMessagesContainer.prepend(audioElement);
+
+              setTimeout(() => { // todo fix
+                fetch('/convert', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ message: filename }),
+                });
+              }, 3000);
             }
           }
         });
@@ -184,7 +192,7 @@ deleteButton.addEventListener('click', (event) => {
           console.log(response);
         });
       }
-      console.log('Invalid status saving audio message: ' + res.status);
+      console.log('Status deleting audio message: ' + res.status);
     });
     return true;
 });
