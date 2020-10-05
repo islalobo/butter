@@ -66,7 +66,7 @@ app.post('/convert', (req, res) => {
   try {
     let process = new ffmpeg(`./public/messages/${req.body.message}`);
     process.then((audio) => {
-      audio.fnExtractSoundToMP3(`/messages/${req.body.message}.mp3`, (error, file) => {
+      audio.fnExtractSoundToMP3(`./public/messages/${req.body.message}.mp3`, (error, file) => {
         if (!error) console.log('Audio File: ', file);
         if (error) console.log(error);
       });
