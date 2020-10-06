@@ -20,7 +20,10 @@ document.querySelector('#voice').innerHTML = title;
 // Set default recording hidden attribute
 const setDefaultRecordingState = () => {
   recordingIndicator.hidden = true;
-  // document.querySelector('#header-gif').setAttribute('disabled', recordingIndicator.getAttribute('hidden'));
+
+  console.log('bloop ', recordingIndicator.getAttribute('hidden'));
+  document.querySelector('#header-gif').style.display = "block";
+  document.querySelector('#header-png').style.display = "none";
 }
 setDefaultRecordingState();
 
@@ -37,6 +40,8 @@ const recordAudio = () =>
 
     const start = () => {
       recordingIndicator.hidden = false;
+      document.querySelector('#header-gif').style.display = "none";
+      document.querySelector('#header-png').style.display = "block";
 
       audioChunks = [];
       mediaRecorder.start();
@@ -45,6 +50,8 @@ const recordAudio = () =>
     const stop = () =>
       new Promise(resolve => {
         recordingIndicator.hidden = true;
+        document.querySelector('#header-gif').style.display = "block";
+        document.querySelector('#header-png').style.display = "none";
 
         mediaRecorder.addEventListener('stop', () => {
           const audioBlob = new Blob(audioChunks);
@@ -93,7 +100,7 @@ const populateAudioMessages = (id) => {
               audioElement.setAttribute('controls', true);
               
               // save the current message
-              currentMessage = audioElement.src;
+              currentMessage = filename; // this is the id
               
               // populate the most recent message in the container
               sendAudioMessagesContainer.prepend(audioElement);
@@ -102,7 +109,7 @@ const populateAudioMessages = (id) => {
                 fetch('/convert', {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ message: filename }),
+                  body: JSON.stringify({ message: filename, type: document.querySelector('#voice-type').innerHTML }),
                 });
               }, 3000);
             }
@@ -166,7 +173,7 @@ sendButton.addEventListener('click', (event) => {
   window.open(
     `mailto:thesoundofourvoices@gmail.com?`
     + `subject=${title}&`
-    + `body=${currentMessage}`,
+    + `body=https://echoload.herokuapp.com/audio/${type}/${currentMessage}`,
     '_parent'
     );
 });
@@ -184,7 +191,7 @@ deleteButton.addEventListener('click', (event) => {
   fetch('/messages', {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: 'fake_id' })
+      body: JSON.stringify({ id: 'fake_id' }) // todo
     }).then(res => {
       if (res.status === 201) {
         const response = res.json()

@@ -21,15 +21,54 @@ if (!fs.existsSync(messageFolder)) {
   fs.mkdirSync(messageFolder);
 }
 
+// make sure folder for each voice type audio exists
+const voicesFolder = './public/audio';
+if (!fs.existsSync(voicesFolder)) {
+  fs.mkdirSync(voicesFolder);
+}
+
+const defaultVoicesFolder = './public/audio/default';
+if (!fs.existsSync(defaultVoicesFolder)) {
+  fs.mkdirSync(defaultVoicesFolder);
+}
+
+const aliveVoicesFolder = './public/audio/alive';
+if (!fs.existsSync(aliveVoicesFolder)) {
+  fs.mkdirSync(aliveVoicesFolder);
+}
+
+const animalVoicesFolder = './public/audio/animal';
+if (!fs.existsSync(animalVoicesFolder)) {
+  fs.mkdirSync(animalVoicesFolder);
+}
+
+const blackVoicesFolder = './public/audio/black';
+if (!fs.existsSync(blackVoicesFolder)) {
+  fs.mkdirSync(blackVoicesFolder);
+}
+
+const immigrantVoicesFolder = './public/audio/immigrant';
+if (!fs.existsSync(immigrantVoicesFolder)) {
+  fs.mkdirSync(immigrantVoicesFolder);
+}
+
+const queerVoicesFolder = './public/audio/queer';
+if (!fs.existsSync(queerVoicesFolder)) {
+  fs.mkdirSync(queerVoicesFolder);
+}
+
+const sisterVoicesFolder = './public/audio/sister';
+if (!fs.existsSync(sisterVoicesFolder)) {
+  fs.mkdirSync(sisterVoicesFolder);
+}
+
 // Setup Pages
 var path = require('path');
 var htmlPath = path.join(__dirname, 'public/voices');
 
 app.use(express.static(htmlPath));
 
-app.get('/', (req, res) => {
-  // res.send('hello world')
-})
+app.get('/', (req, res) => {})
 
 // Methods
 app.get('/messages', (req, res) => {
@@ -66,7 +105,10 @@ app.post('/convert', (req, res) => {
   try {
     let process = new ffmpeg(`./public/messages/${req.body.message}`);
     process.then((audio) => {
-      audio.fnExtractSoundToMP3(`./public/messages/${req.body.message}.mp3`, (error, file) => {
+
+      if (!req.body.type) type = 'default';
+
+      audio.fnExtractSoundToMP3(`./public/audio/${type}/${req.body.message}.mp3`, (error, file) => {
         if (!error) console.log('Audio File: ', file);
         if (error) console.log(error);
       });
@@ -77,27 +119,6 @@ app.post('/convert', (req, res) => {
   catch(error) {
     console.log(error.code, error.msg);
   }
-
-  // try {
-  //   new ffmpeg(`./public/messages/${req.body.message}`)
-  //     .on('error', (error) => {
-  //       console.log('An error occured: ', error.message);
-  //     })
-  //     .on('start', () => {
-  //       console.log('Starting conversion');
-  //     })
-  //     .on('progress', (progress) => {
-  //       console.log('Processing: ', progress.targetSize, ' KB converted');
-  //     })
-  //     .on('end', () => {
-  //       console.log('Processing finished!');
-  //     })
-  //     .save(`/messages/${req.body.message}.mp4`);
-  // }
-  // catch(error) {
-  //   console.log('Error ', error);
-  // }
-
 });
 
 app.delete('/messages', (req, res) => {

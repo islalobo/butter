@@ -7,28 +7,47 @@
     <link rel="stylesheet" href="../assets//styles.css">
     <title>Immigrant Voices</title>
   </head>
-  <!--
-    /*
-     * reverberations and the sound of our voices
-     */
-
-     1. main page links to page where the user can record & || type and submit
-     2. since there are various links from the main page, each new page will have a page title
-     3. the page title will be the email subject
-
-    -->
   <body class="container">
+    <div hidden id="voice-type">immigrant</div>
+    
     <div class="row">
-      <h1 id="title" class="title">Immigrant Voices</h1>
+      <h1 hidden id="title" class="title">Immigrant Voices</h1>
+    </div>
+
+    <div class="header-container">
+      <div class=header-image>
+        <img id="header-gif" src="../assets/reverb.gif" class="recording-indicator-image" alt="reverb gif logo" />
+        <img id="header-png" src="../assets/reverb.png" class="recording-indicator-image" alt="reverb gif logo" />
+      </div>
+      <div class="header">
+        <div id="title" class="title">Reverberations</div>
+        <div id="voice" class="sub-title"></div>
+      </div>
     </div>
 
     <div class="row">
-      record your story and submit. submitting will send an email with your audio recording.
+      <div class="paragraph-left">
+        our voices, while differing, all have import. truth is found in dissonance; the combination of disharmonious elements.
+        combined the sounds of our voices is unsilenceable, undstoppable, and uncontainable.
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="paragraph-right">
+        submit your voice about what it means to you to be an Immigrant. simply hit the record button and hit share when you are done. 
+        a text submission can be sent by emailing <a href="mailto:thesoundofourvoices@gmail.com">thesoundofourvoices@gmail.com</a>
+      </div>
     </div>
 
     <div class="row">
       <div class="recording-indicator">
-        <img id="recording-indicator" src="reverb.gif" class="recording-indicator-image" alt="reverb gif" />
+        <img id="recording-indicator" src="../assets/reverb.gif" class="recording-indicator-image" alt="reverb gif" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div id="audio-messages" class="recordings">
+        <!-- <audio controls="controls" src="[blobUrl]" type="audio/mp3" /> -->
       </div>
     </div>
 
@@ -42,13 +61,13 @@
     </div>
 
     <div class="row">
-      <div id="audio-messages" class="recordings"></div>
-    </div>
-
-    <div class="row">
-      <button id="send" disable={isRecording} class="mdc-button foo-button"disabled>Send</button>
+      <button id="send" class="mdc-button mdc-button--outlined">
+        <div class="mdc-button__ripple"></div>
+        <span class="mdc-button__label">Share Your Voice (Submit)</span>
+      </button>
     </div>
     
     <script type="text/javascript" src="../utils/recorder.js"></script>
+    <noscript>This site requires javascript to be enabled to work.</noscript>
   </body>
 </html>

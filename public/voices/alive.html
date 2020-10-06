@@ -7,24 +7,19 @@
     <link rel="stylesheet" href="../assets//styles.css">
     <title>Alive Voices</title>
   </head>
-  <!--
-    /*
-     * reverberations and the sound of our voices
-     */
-
-     1. main page links to page where the user can record & || type and submit
-     2. since there are various links from the main page, each new page will have a page title
-     3. the page title will be the email subject
-
-    -->
   <body class="container">
+    <div hidden id="voice-type">alive</div>
+    
     <div class="row">
       <h1 hidden id="title" class="title">Alive Voices</h1>
     </div>
 
-    <div style="display:flex; flex-direction:row; justify-content:flex-start;" class="">
-      <div style="display:flex;flex-direction:column;"><img id="header-gif" src="../assets/reverb.gif" class="recording-indicator-image" alt="reverb gif logo" /></div>
-      <div style="display:flex; flex-direction:column;margin-top:30px;">
+    <div class="header-container">
+      <div class=header-image>
+        <img id="header-gif" src="../assets/reverb.gif" class="recording-indicator-image" alt="reverb gif logo" />
+        <img id="header-png" src="../assets/reverb.png" class="recording-indicator-image" alt="reverb gif logo" />
+      </div>
+      <div class="header">
         <div id="title" class="title">Reverberations</div>
         <div id="voice" class="sub-title"></div>
       </div>
@@ -32,15 +27,15 @@
 
     <div class="row">
       <div class="paragraph-left">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        our voices, while differing, all have import. truth is found in dissonance; the combination of disharmonious elements.
+        combined the sounds of our voices is unsilenceable, undstoppable, and uncontainable.
       </div>
     </div>
 
     <div class="row">
       <div class="paragraph-right">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        submit your voice about what it means to you to be alive. simply hit the record button and hit share when you are done. 
+        a text submission can be sent by emailing <a href="mailto:thesoundofourvoices@gmail.com">thesoundofourvoices@gmail.com</a>
       </div>
     </div>
 
@@ -73,5 +68,6 @@
     </div>
     
     <script type="text/javascript" src="../utils/recorder.js"></script>
+    <noscript>This site requires javascript to be enabled to work.</noscript>
   </body>
 </html>
