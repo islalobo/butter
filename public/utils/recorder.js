@@ -123,6 +123,8 @@ const populateAudioMessages = (id) => {
 
 // Event Listeners
 recordButton.addEventListener('click', async () => {
+  sendAudioMessagesContainer.innerHTML = ''; // clear out audio, bye!
+  
   recordButton.setAttribute('disabled', true);
   stopButton.removeAttribute('disabled');
   playButton.setAttribute('disabled', true);
@@ -174,7 +176,7 @@ sendButton.addEventListener('click', () => {
   window.open(
     `mailto:thesoundofourvoices@gmail.com?`
     + `subject=${title}&`
-    + `body=https://echoload.herokuapp.com/audio/${type}/${currentMessage}.mp3`,
+    + `body=https://echoload.herokuapp.com/audio/${type}/${currentMessage}.mp3`, // update this url when subdomain is working
     '_parent'
     );
 });
