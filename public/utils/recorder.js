@@ -161,14 +161,15 @@ playButton.addEventListener('click', () => {
   audio.play();
 });
 
-sendButton.addEventListener('click', (event) => {
-  sendAudioMessagesContainer.innerHTML = ''; // clear out audio, bye!
-
+sendButton.addEventListener('click', () => {
   // set button states accordingly 
   recordButton.removeAttribute('disabled');
   stopButton.setAttribute('disabled', true);
   playButton.setAttribute('disabled', true);
   deleteButton.setAttribute('disabled', true);
+
+  let type = document.querySelector('#voice-type').innerHTML
+  if (!type) type = 'default';
 
   window.open(
     `mailto:thesoundofourvoices@gmail.com?`
