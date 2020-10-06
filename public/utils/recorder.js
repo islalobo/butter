@@ -174,7 +174,7 @@ sendButton.addEventListener('click', () => {
   window.open(
     `mailto:thesoundofourvoices@gmail.com?`
     + `subject=${title}&`
-    + `body=https://echoload.herokuapp.com/audio/${type}/${currentMessage}`,
+    + `body=https://echoload.herokuapp.com/audio/${type}/${currentMessage}.mp3`,
     '_parent'
     );
 });
