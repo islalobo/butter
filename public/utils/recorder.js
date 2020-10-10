@@ -103,6 +103,7 @@ const populateAudioMessages = (id) => {
               currentMessage = filename; // this is the id
               
               // populate the most recent message in the container
+              sendAudioMessagesContainer.innerHTML = '';
               sendAudioMessagesContainer.prepend(audioElement);
 
               setTimeout(() => { // todo fix
@@ -137,7 +138,7 @@ recordButton.addEventListener('click', async () => {
 });
 
 stopButton.addEventListener('click', async () => {
-  sendAudioMessagesContainer.innerHTML = ''; // wipe any audio that was there before
+  sendAudioMessagesContainer.innerHTML = '...preparing your audio, one moment please! <3'; // wipe any audio that was there before
 
   // set button states accordingly 
   recordButton.removeAttribute('disabled');
