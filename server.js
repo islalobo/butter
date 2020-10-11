@@ -5,6 +5,8 @@ const { promisify } = require('util');
 const { v4 } = require('uuid');
 const ffmpeg = require('ffmpeg');
 
+const cors = require('cors');
+
 // Define app
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -12,8 +14,17 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(express.static('public'));
 app.use(express.json());
 
-const cors = require('cors');
 app.use(cors({origin: 'https://www.soundsofourvoices'}));
+
+app.use(
+  cors({
+    allowedHeaders: ["authorization", "Content-Type"], // you can change the headers
+    exposedHeaders: ["authorization"], // you can change the headers
+    origin: "*",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    preflightContinue: false
+  })
+);
 
 const writeFile = promisify(fs.writeFile);
 const readdir = promisify(fs.readdir);
