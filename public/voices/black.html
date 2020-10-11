@@ -263,20 +263,21 @@
       deleteButton.setAttribute('disabled', true);
 
       // todo, get the filename from the audio and delete
-      // fetch('https://echoload.herokuapp.com/messages', {
-      //     mode: 'cors',
-      //     method: 'DELETE',
-      //     headers: { 'Content-Type': 'application/json' },
-      //     body: JSON.stringify({ id: 'fake_id' }) // todo
-      //   }).then(res => {
-      //     if (res.status === 201) {
-      //       const response = res.json()
-      //       .then(response => {
-      //         console.log(response);
-      //       });
-      //     }
-      //     console.log('Status deleting audio message: ' + res.status);
-      //   });
+      fetch('https://echoload.herokuapp.com/messages', {
+          mode: 'cors',
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: 'fake_id' }) // todo
+        }).then(res => {
+          if (res.status === 201) {
+            const response = res.json()
+            .then(response => {
+              console.log(response);
+            });
+          }
+          console.log('Status deleting audio message: ' + res.status);
+        });
+        return true;
     });
     </script>
     <noscript>This site requires javascript to be enabled to work.</noscript>

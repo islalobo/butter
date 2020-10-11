@@ -12,7 +12,8 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(express.static('public'));
 app.use(express.json());
 
-const cors = require("cors");
+const cors = require('cors');
+app.use(cors({origin: 'https://www.soundsofourvoices'}));
 
 const writeFile = promisify(fs.writeFile);
 const readdir = promisify(fs.readdir);
