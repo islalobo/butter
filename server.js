@@ -14,17 +14,9 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(express.static('public'));
 app.use(express.json());
 
-app.use(cors({origin: 'https://www.soundsofourvoices.com/post/i-am-black'}));
-
-app.use(
-  cors({
-    allowedHeaders: ["authorization", "Content-Type"], // you can change the headers
-    exposedHeaders: ["authorization"], // you can change the headers
-    origin: "*",
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    preflightContinue: false
-  })
-);
+// app.use(cors({origin: 'https://www.soundsofourvoices'}));
+app.use(cors());
+app.options('*', cors());
 
 const writeFile = promisify(fs.writeFile);
 const readdir = promisify(fs.readdir);
