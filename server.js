@@ -71,6 +71,12 @@ if (!fs.existsSync(sisterVoicesFolder)) {
 var path = require('path');
 var htmlPath = path.join(__dirname, 'public/voices');
 
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
 app.use(express.static(htmlPath));
 
 app.get('/', cors(), (req, res) => {})
