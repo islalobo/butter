@@ -11,7 +11,8 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(express.static('public'));
 app.use(express.json());
-app.use(cors());
+
+const cors = require("cors");
 
 const writeFile = promisify(fs.writeFile);
 const readdir = promisify(fs.readdir);
@@ -69,10 +70,10 @@ var htmlPath = path.join(__dirname, 'public/voices');
 
 app.use(express.static(htmlPath));
 
-app.get('/', (req, res) => {})
+app.get('/', cors(), (req, res) => {})
 
 // Methods
-app.get('/messages', (req, res) => {
+app.get('/messages', cors(), (req, res) => {
   readdir(messageFolder)
     .then(messageFilenames => {
       res.status(200).json({ messageFilenames });
@@ -83,7 +84,7 @@ app.get('/messages', (req, res) => {
     });
 });
 
-app.post('/messages', (req, res) => {
+app.post('/messages', cors(), (req, res) => {
   if (!req.body.message) {
     return res.status(400).json({ error: 'No req.body.message' });
   }
@@ -101,7 +102,7 @@ app.post('/messages', (req, res) => {
     });
 });
 
-app.post('/convert', (req, res) => {
+app.post('/convert', cors(), (req, res) => {
   console.log('trying to convert ', req.body.message);
   try {
     let process = new ffmpeg(`./public/messages/${req.body.message}`);
@@ -123,13 +124,13 @@ app.post('/convert', (req, res) => {
   }
 });
 
-app.delete('/messages', (req, res) => {
-  // todo, delete message by id
-  res.status(201).json({
-    message: 'Nothing happened',
-    id: req.body.id,
-  });
-});
+// app.delete('/messages', (req, res) => {
+//   // todo, delete message by id
+//   res.status(201).json({
+//     message: 'Nothing happened',
+//     id: req.body.id,
+//   });
+// });
 
 const PORT = process.env.PORT || 3545;
 app.listen(PORT, () => {
