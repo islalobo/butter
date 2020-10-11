@@ -74,6 +74,7 @@ await fetch('https://echoload.herokuapp.com/messages', {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ message: base64AudioMessage })
   }).then(res => {
+    console.log(res);
     if (res.status === 201) {
       const response = res.json()
       .then(response => {
@@ -118,7 +119,7 @@ const populateAudioMessages = (id) => {
         });
       });
     }
-    console.log('Invalid status getting messages: ' + res.status);
+    console.log('Response gettings messages: ' + res.status);
   });
 };
 
@@ -192,18 +193,18 @@ deleteButton.addEventListener('click', (event) => {
   deleteButton.setAttribute('disabled', true);
 
   // todo, get the filename from the audio and delete
-  fetch('https://echoload.herokuapp.com/messages', {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: 'fake_id' }) // todo
-    }).then(res => {
-      if (res.status === 201) {
-        const response = res.json()
-        .then(response => {
-          console.log(response);
-        });
-      }
-      console.log('Status deleting audio message: ' + res.status);
-    });
-    return true;
+  // fetch('https://echoload.herokuapp.com/messages', {
+  //     method: 'DELETE',
+  //     headers: { 'Content-Type': 'application/json' },
+  //     body: JSON.stringify({ id: 'fake_id' }) // todo
+  //   }).then(res => {
+  //     if (res.status === 201) {
+  //       const response = res.json()
+  //       .then(response => {
+  //         console.log(response);
+  //       });
+  //     }
+  //     console.log('Status deleting audio message: ' + res.status);
+  //   });
+  //   return true;
 });
