@@ -69,7 +69,7 @@ const recordAudio = () =>
 
 // Save Audio
 const saveMessage = async function(base64AudioMessage) {
-await fetch('/messages', {
+await fetch('https://echoload.herokuapp.com/messages', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ message: base64AudioMessage })
@@ -86,7 +86,7 @@ await fetch('/messages', {
 }
 
 const populateAudioMessages = (id) => {
-  return fetch('/messages').then(res => {
+  return fetch('https://echoload.herokuapp.com/messages').then(res => {
     if (res.status === 200) {
       return res.json().then(json => {
         json.messageFilenames.forEach(filename => {
@@ -95,7 +95,7 @@ const populateAudioMessages = (id) => {
             if (!audioElement) {
               // audio stuff and then some
               audioElement = document.createElement('audio');
-              audioElement.src = `/messages/${filename}`;
+              audioElement.src = `https://echoload.herokuapp.com/messages/${filename}`;
               audioElement.setAttribute('data-audio-filename', filename);
               audioElement.setAttribute('controls', true);
               
@@ -107,7 +107,7 @@ const populateAudioMessages = (id) => {
               sendAudioMessagesContainer.prepend(audioElement);
 
               setTimeout(() => { // todo fix
-                fetch('/convert', {
+                fetch('https://echoload.herokuapp.com/convert', {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify({ message: filename, type: document.querySelector('#voice-type').innerHTML }),
@@ -192,7 +192,7 @@ deleteButton.addEventListener('click', (event) => {
   deleteButton.setAttribute('disabled', true);
 
   // todo, get the filename from the audio and delete
-  fetch('/messages', {
+  fetch('https://echoload.herokuapp.com/messages', {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id: 'fake_id' }) // todo
